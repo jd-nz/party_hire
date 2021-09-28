@@ -1,10 +1,10 @@
 import tkinter as tk
 from tkinter import *
 from functools import partial
-from numpy import disp
 from numpy.lib.function_base import delete
 import pandas as pd
 from pandastable import Table
+from tkinter import messagebox
 
 data = {"first_name": [],
         "surname": [],
@@ -13,12 +13,52 @@ data = {"first_name": [],
         "quantity": []}
 
 def enter_data(first_name, surname, receipt_no, item_hired, quantity):
-    data["first_name"].append(first_name.get())
-    data["surname"].append(surname.get())
-    data["receipt_no"].append(receipt_no.get())
-    data["item_hired"].append(item_hired.get())
-    data["quantity"].append(quantity.get())
-    print(data)
+    first_name = first_name.get()
+    surname = surname.get()
+    receipt_no = receipt_no.get()
+    item_hired = item_hired.get()
+    quantity = quantity.get()
+
+    if first_name == "":
+        messagebox.showwarning('Error', 'Please enter first name')
+        return
+    elif any(char.isdigit() for char in first_name) == True:
+        messagebox.showwarning('Error', 'Numbers in first name is not allowed')
+        return
+
+    if surname == "":
+        messagebox.showwarning('Error', 'Please enter surname')
+        return
+    elif any(char.isdigit() for char in surname) == True:
+        messagebox.showwarning('Error', 'Numbers in surname is not allowed')
+        return
+
+    if receipt_no == "":
+        messagebox.showwarning('Error', 'Please enter receipt number')
+        return
+    elif receipt_no.isdigit() == False:
+        messagebox.showwarning('Error', 'Letters in receipt number is not allowed')
+        return
+
+    if item_hired == "":
+        messagebox.showwarning('Error', 'Please enter item hired')
+        return
+    elif any(char.isdigit() for char in item_hired) == True:
+        messagebox.showwarning('Error', 'Numbers in item hird is not allowed')
+        return
+
+    if quantity == "":
+        messagebox.showwarning('Error', 'Please enter quantity')
+        return
+    elif quantity.isdigit() == False:
+        messagebox.showwarning('Error', 'Letters in quantity is not allowed')
+        return
+
+    data["first_name"].append(first_name)
+    data["surname"].append(surname)
+    data["receipt_no"].append(receipt_no)
+    data["item_hired"].append(item_hired)
+    data["quantity"].append(quantity)
 
 class view_data(Frame):
     def __init__(self):
@@ -44,7 +84,7 @@ def gui():
     master.geometry("")
 
     #Title
-    tk.Label(master, text="Create New").grid(row=0, column=1)
+    tk.Label(master, text="New Data").grid(row=0, column=1)
 
     #Create
 
