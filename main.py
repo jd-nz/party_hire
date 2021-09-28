@@ -87,7 +87,7 @@ def delete_data(row):
         return
     messagebox.showwarning('Info', 'Data Deleted')
 
-def gui():
+def main():
     master = tk.Tk()
 
     master.title("Party Hire")
@@ -140,4 +140,4 @@ def gui():
 
     master.mainloop()
 
-gui()
+main()
