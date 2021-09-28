@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import *
 from functools import partial
 from numpy import disp
+from numpy.lib.function_base import delete
 import pandas as pd
 from pandastable import Table
 
@@ -17,6 +18,7 @@ def enter_data(first_name, surname, receipt_no, item_hired, quantity):
     data["receipt_no"].append(receipt_no.get())
     data["item_hired"].append(item_hired.get())
     data["quantity"].append(quantity.get())
+    print(data)
 
 class view_data(Frame):
     def __init__(self):
@@ -29,10 +31,11 @@ class view_data(Frame):
                                 showtoolbar=False, showstatusbar=False)
         pt.show()
         mainloop()
-        return
 
 def delete_data(row):
-    return
+    row = int(row.get())
+    for i in data["first_name"], data["surname"], data["receipt_no"], data["item_hired"], data["quantity"]:
+        del i[row-1]
 
 def gui():
     master = tk.Tk()
@@ -81,8 +84,9 @@ def gui():
     tk.Label(master, text="Delete Data").grid(row=7, column=1)
     tk.Label(master, text="Data Row").grid(row=8, column=0)
     delete_row_value = tk.StringVar()
+    command_delete_row = partial(delete_data, delete_row_value)
     delete_row = tk.Entry(master, textvariable=delete_row_value).grid(row=8, column=1)
-    delete_row_button = tk.Button(master, text="Delete Data").grid(row=9, column=1)
+    delete_row_button = tk.Button(master, text="Delete Data", command=command_delete_row).grid(row=9, column=1)
 
     master.mainloop()
 
