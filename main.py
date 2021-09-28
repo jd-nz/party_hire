@@ -39,6 +39,9 @@ def enter_data(first_name, surname, receipt_no, item_hired, quantity):
     elif receipt_no.isdigit() == False:
         messagebox.showwarning('Error', 'Letters in receipt number is not allowed')
         return
+    elif receipt_no in data["receipt_no"]:
+        messagebox.showwarning('Error', 'This receipt number already exists')
+        return
 
     if item_hired == "":
         messagebox.showwarning('Error', 'Please enter item hired')
@@ -60,6 +63,8 @@ def enter_data(first_name, surname, receipt_no, item_hired, quantity):
     data["item_hired"].append(item_hired)
     data["quantity"].append(quantity)
 
+    messagebox.showinfo('Info', 'Data Saved')
+
 class view_data(Frame):
     def __init__(self):
         Frame.__init__(self)
@@ -74,8 +79,13 @@ class view_data(Frame):
 
 def delete_data(row):
     row = int(row.get())
-    for i in data["first_name"], data["surname"], data["receipt_no"], data["item_hired"], data["quantity"]:
-        del i[row-1]
+    try:
+        for i in data["first_name"], data["surname"], data["receipt_no"], data["item_hired"], data["quantity"]:
+            del i[row-1]
+    except:
+        messagebox.showwarning('Error', 'This row does not exist')
+        return
+    messagebox.showwarning('Info', 'Data Deleted')
 
 def gui():
     master = tk.Tk()
