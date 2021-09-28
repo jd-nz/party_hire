@@ -1,24 +1,35 @@
 import tkinter as tk
+from tkinter import *
 from functools import partial
+from numpy import disp
+import pandas as pd
+from pandastable import Table
 
-lst = []
-
-
+data = {"full_name": [],
+            "receipt_no": [],
+            "item_hired": [],
+            "quantity": []}
 
 def enter_data(full_name, receipt_no, item_hired, quantity):
-    dict = {"full_name": full_name.get(),
-            "receipt_no": receipt_no.get(),
-            "item_hired": item_hired.get(),
-            "quantity": quantity.get()}
-    lst.append(dict)
-    print(lst)
-    return
+    data["full_name"].append(full_name.get())
+    data["receipt_no"].append(receipt_no.get())
+    data["item_hired"].append(item_hired.get())
+    data["quantity"].append(quantity.get())
 
-def view_data():
-    return
+class view_data(Frame):
+    def __init__(self):
+        Frame.__init__(self)
+        self.main = self.master
+        self.main.title('Table')
+        f = Toplevel(self.main)
+        df = pd.DataFrame(data, columns = ["full_name", "receipt_no", "item_hired", "quantity"])
+        self.table = pt = Table(f, dataframe=df,
+                                showtoolbar=False, showstatusbar=False)
+        pt.show()
+        mainloop()
+        return
 
 def delete_data(row):
-    lst.remove(lst[row])
     return
 
 def gui():
@@ -57,7 +68,7 @@ def gui():
 
     #Buttons
     enter_data_button = tk.Button(master, text="Enter Data", command=command_enter_data).grid(row=4, column=2)
-    view_data = tk.Button(master, text="View Data").grid(row=5, column=1)
+    view_data_button = tk.Button(master, text="View Data", command=view_data).grid(row=5, column=1)
 
     #Delete
     tk.Label(master, text="Delete Data").grid(row=6, column=1)
